@@ -3,4 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="add_new_template">Add New Template</string>
+    <string name="add_new_category">Add New Category</string>
 </resources>
