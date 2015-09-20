@@ -61,6 +61,8 @@ public class CategoryFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_category_fragment, menu);
+        MenuItem menuItem = (MenuItem) menu.findItem(R.id.menu_item_new_player);
+        menuItem.setTitle(R.string.add_new_template);
     }
 
     private void updateUI() {

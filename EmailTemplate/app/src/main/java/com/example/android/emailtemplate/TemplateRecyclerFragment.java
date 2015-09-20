@@ -45,7 +45,6 @@ public class TemplateRecyclerFragment extends Fragment {
         updateUI();
         return view;
     }
-    private static final int REQUEST_NAME = 0;
 
     @Override
     public void onResume() {
@@ -71,21 +70,14 @@ public class TemplateRecyclerFragment extends Fragment {
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
-//        if (requestCode == REQUEST_NAME) {
-//            String name = (String) data
-//                    .getSerializableExtra(NewPlayerDialog.EXTRA_NAME);
-//            DatabasePlayer databasePlayer = new DatabasePlayer();
-//            Singleton singleton = Singleton.getSingleton(getActivity());
-//            databasePlayer.setName(name);
-//            singleton.addPlayer(databasePlayer);
-//            updateUI();
-//        }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_category_fragment, menu);
+        MenuItem menuItem = (MenuItem) menu.findItem(R.id.menu_item_new_player);
+        menuItem.setTitle(R.string.add_new_template);
     }
 
     private void updateUI() {
@@ -118,13 +110,6 @@ public class TemplateRecyclerFragment extends Fragment {
                             mCategoryUUID);
             startActivity(intent);
         }
-    }
-
-    private void setNameChosen(String name) {
-        Intent data = new Intent();
-        //data.putExtra(RosterActivity.NAME_CHOSEN, name);
-        getActivity().setResult(Activity.RESULT_OK, data);
-        getActivity().finish();
     }
 
     private class TemplateAdapter extends RecyclerView.Adapter<TemplateHolder> {
