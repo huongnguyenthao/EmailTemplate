@@ -62,7 +62,7 @@ public class CategoryFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_category_fragment, menu);
         MenuItem menuItem = (MenuItem) menu.findItem(R.id.menu_item_new_player);
-        menuItem.setTitle(R.string.add_new_template);
+        menuItem.setTitle(R.string.add_new_category);
     }
 
     private void updateUI() {
@@ -112,13 +112,6 @@ public class CategoryFragment extends Fragment {
             dataInterface.addCategory(category);
             updateUI();
         }
-    }
-
-    private void setNameChosen(String name) {
-        Intent data = new Intent();
-        //data.putExtra(RosterActivity.NAME_CHOSEN, name);
-        getActivity().setResult(Activity.RESULT_OK, data);
-        getActivity().finish();
     }
 
     private class CategoriesAdapter extends RecyclerView.Adapter<CategoryHolder> {

@@ -33,6 +33,10 @@ public class TemplateRecyclerFragment extends Fragment {
         setHasOptionsMenu(true);
         mCategoryUUID = UUID.fromString(getActivity()
                 .getIntent().getStringExtra(CATEGORY_UUID));
+        DataInterface dataInterface = DataInterface
+                .getDataInterface(getContext());
+        Category category = dataInterface.getCategory(mCategoryUUID);
+        getActivity().setTitle(category.getCategory());
     }
 
     @Override
@@ -78,6 +82,7 @@ public class TemplateRecyclerFragment extends Fragment {
         inflater.inflate(R.menu.menu_category_fragment, menu);
         MenuItem menuItem = (MenuItem) menu.findItem(R.id.menu_item_new_player);
         menuItem.setTitle(R.string.add_new_template);
+
     }
 
     private void updateUI() {

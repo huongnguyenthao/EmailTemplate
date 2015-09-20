@@ -44,6 +44,9 @@ public class SingleTemplateFragment extends Fragment {
                 mTemplate.setCategoryUUID(UUID.fromString(cUUID));
             }
         }
+        Category category = mDataInterface.getCategory(
+                mTemplate.getCategoryUUID());
+        getActivity().setTitle(category.getCategory());
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
