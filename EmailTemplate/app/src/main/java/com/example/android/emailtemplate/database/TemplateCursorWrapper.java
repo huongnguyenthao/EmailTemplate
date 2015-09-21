@@ -4,6 +4,9 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 
 import com.example.android.emailtemplate.Template;
+
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import static com.example.android.emailtemplate.database.TemplateDbSchema.*;
@@ -31,11 +34,15 @@ public class TemplateCursorWrapper extends CursorWrapper {
                 (TemplateTable.Cols.TEMPLATE));
         int isFave = getInt(getColumnIndex
                 (TemplateTable.Cols.ISFAVORITE));
+        String lastAccessed = getString(getColumnIndex(
+                TemplateTable.Cols.LASTACCESSED));
+        Timestamp timestamp = Timestamp.valueOf(lastAccessed);
         Template template = new Template(uuid);
         template.setCategoryUUID(categoryUUID);
         template.setName(name);
         template.setTemplate(templateString);
         template.setIsFavorite(isFave != 0);
+        template.setLastAccessed(timestamp);
         return template;
     }
 }

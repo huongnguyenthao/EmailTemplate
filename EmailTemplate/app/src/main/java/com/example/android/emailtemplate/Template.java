@@ -1,5 +1,7 @@
 package com.example.android.emailtemplate;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.UUID;
 
 /**
@@ -20,6 +22,16 @@ public class Template {
     private String mName;
     private String mTemplate;
 
+    public Timestamp getLastAccessed() {
+        return mLastAccessed;
+    }
+
+    public void setLastAccessed(Timestamp lastAccessed) {
+        mLastAccessed = lastAccessed;
+    }
+
+    private Timestamp mLastAccessed;
+
     public boolean isFavorite() {
         return mIsFavorite;
     }
@@ -32,6 +44,8 @@ public class Template {
 
     public Template(UUID uuid) {
         mUUID = uuid;
+        Calendar calendar = Calendar.getInstance();
+        mLastAccessed = new Timestamp(calendar.getTime().getTime());
     }
 
     public Template() {

@@ -12,6 +12,10 @@ public class TemplateDbSchema {
         }
     }
 
+    /***
+     * The schema for the templates table. Contains a UUID link
+     * to the categories table.
+     */
     public static final class TemplateTable{
         public final static String NAME = "templates";
         public static final class Cols {
@@ -20,6 +24,7 @@ public class TemplateDbSchema {
             public static final String NAME = "name";
             public static final String TEMPLATE = "template";
             public static final String ISFAVORITE = "isFavorite";
+            public static final String LASTACCESSED = "lastaccessed";
         }
     }
 }

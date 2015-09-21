@@ -2,14 +2,18 @@ package com.example.android.emailtemplate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.UUID;
 
 /**
@@ -19,9 +23,14 @@ public class SingleTemplateFragment extends Fragment {
     private EditText mTitleEditText;
     private EditText mEmailEditText;
     private Button mSaveButton;
+    private Button mSendButton;
+    private CheckBox mFavoriteCheckBox;
     private Template mTemplate;
     private DataInterface mDataInterface;
     private boolean mNewTemplate;
+    private CheckBox mSigCheckBox;
+    private Signature mSignature;
+    private boolean includeSignature;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +56,8 @@ public class SingleTemplateFragment extends Fragment {
         Category category = mDataInterface.getCategory(
                 mTemplate.getCategoryUUID());
         getActivity().setTitle(category.getCategory());
+
+        mSignature = Signature.getInstance(getActivity());
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +66,15 @@ public class SingleTemplateFragment extends Fragment {
                 .single_template_fragment, container, false);
         mTitleEditText = (EditText) view.findViewById(R.id.title_edit_text);
         mEmailEditText = (EditText) view.findViewById(R.id.email_text_edit_text);
+
+        mSigCheckBox = (CheckBox) view.findViewById(R.id.include_signature_checkbox);
+        mSigCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                includeSignature = ((CheckBox) v).isChecked();
+            }
+        });
+
         mSaveButton = (Button) view.findViewById(R.id.save_button);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,14 +82,39 @@ public class SingleTemplateFragment extends Fragment {
                 saveTemplate();
             }
         });
+        mSendButton = (Button) view.findViewById(R.id.send_email_button);
+        mSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveTemplate();
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setData(Uri.parse("mailto:"));
+                intent.setType("text/plain");
+                String message = mTemplate.getTemplate();
+                if(includeSignature) {
+                    message = message + mSignature.getSignature();
+                }
+                intent.putExtra(Intent.EXTRA_TEXT, message);
+                if(intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
         mTitleEditText.setText(mTemplate.getName());
         mEmailEditText.setText(mTemplate.getTemplate());
+
+        mFavoriteCheckBox = (CheckBox) view.findViewById(R.id.favorite_check_box);
+        mFavoriteCheckBox.setChecked(mTemplate.isFavorite());
         return view;
     }
 
     private void saveTemplate() {
         mTemplate.setName(mTitleEditText.getText().toString());
         mTemplate.setTemplate(mEmailEditText.getText().toString());
+        Calendar calendar = Calendar.getInstance();
+        mTemplate.setLastAccessed(new Timestamp(calendar.getTime().getTime()));
+        mTemplate.setIsFavorite(mFavoriteCheckBox.isChecked());
         if (mNewTemplate) {
             mDataInterface.addTemplate(mTemplate);
         }

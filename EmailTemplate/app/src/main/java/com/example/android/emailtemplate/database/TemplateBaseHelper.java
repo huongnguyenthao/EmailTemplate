@@ -32,6 +32,7 @@ public class TemplateBaseHelper extends SQLiteOpenHelper{
                 TemplateTable.Cols.UUID + ", " +
                 TemplateTable.Cols.NAME + ", " +
                 TemplateTable.Cols.ISFAVORITE + ", " +
+                TemplateTable.Cols.LASTACCESSED + ", " +
                 TemplateTable.Cols.TEMPLATE +
                 ") ");
     }

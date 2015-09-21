@@ -5,4 +5,9 @@
         android:id="@+id/menu_item_new_player"
         android:icon="@drawable/ic_menu_add"
         app:showAsAction="ifRoom|withText"/>
+    <item
+        android:id="@+id/menu_item_edit_signature"
+        android:title="@string/edit_signature"
+        android:icon="@drawable/ic_signation"
+        app:showAsAction="ifRoom"/>
 </menu>

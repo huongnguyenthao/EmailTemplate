@@ -12,7 +12,10 @@ import com.example.android.emailtemplate.database.TemplateDbSchema;
 import com.example.android.emailtemplate.database.TemplateDbSchema.CategoryTable;
 import com.example.android.emailtemplate.database.TemplateDbSchema.TemplateTable;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +28,11 @@ public class DataInterface {
 
     private static DataInterface sDataInterface;
 
+    /**
+     * Database layer
+     * @param context
+     * @return instance of DatabaseInterface
+     */
     public static DataInterface getDataInterface(Context context) {
 
         if (sDataInterface == null) {
@@ -127,6 +135,42 @@ public class DataInterface {
         return templates;
     }
 
+    public List<Template> getRecentTemplates() {
+        List<Template> templates = getTemplates();
+        Collections.sort(templates, getTemplateTimeComparator);
+        return templates;
+    }
+
+    public List<Template> getFavoriteTemplates() {
+        List<Template> templates = new ArrayList<>();
+        TemplateCursorWrapper cursor = queryTemplate(null, null);
+        try {
+            if (cursor.getCount() == 0) {
+                return templates;
+            }
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                Template template = cursor.getTemplate();
+                if (template.isFavorite()){
+                    templates.add(template);
+                }
+                cursor.moveToNext();
+            }
+        }
+        finally {
+            cursor.close();
+        }
+        return templates;
+    }
+
+    public static Comparator<Template> getTemplateTimeComparator
+            = new Comparator<Template>() {
+        @Override
+        public int compare(Template lhs, Template rhs) {
+            return lhs.getLastAccessed().compareTo(rhs.getLastAccessed());
+        }
+    };
+
     public Category getCategory(UUID uuid) {
         Category category = new Category(uuid);
         CategoryCursorWrapper cursor = queryCategory(
@@ -194,6 +238,8 @@ public class DataInterface {
                 template.getName());
         values.put(TemplateTable.Cols.ISFAVORITE,
                 template.isFavorite() ? 1 : 0);
+        values.put(TemplateTable.Cols.LASTACCESSED,
+                template.getLastAccessed().toString());
         return values;
     }
 

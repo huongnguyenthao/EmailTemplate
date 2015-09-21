@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,25 +27,39 @@ public class TemplateRecyclerFragment extends Fragment {
     private RecyclerView mTemplateRecyclerView;
     private TemplateAdapter mTemplateAdapter;
     private static final String NEW_TEMPLATE = "NewTemplate";
+    private static final String TYPE_OF_VIEW = "TypeOfView";
+    public static final int NORMAL_VIEW = 0;
+    public static final int RENCENT_VIEW = 1;
+    public static final int FAVORITE_VIEW = 2;
+    private int mViewMode = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mCategoryUUID = UUID.fromString(getActivity()
-                .getIntent().getStringExtra(CATEGORY_UUID));
-        DataInterface dataInterface = DataInterface
-                .getDataInterface(getContext());
-        Category category = dataInterface.getCategory(mCategoryUUID);
-        getActivity().setTitle(category.getCategory());
+        mViewMode = getActivity().getIntent().getIntExtra(TYPE_OF_VIEW, 0);
+        if (mViewMode == NORMAL_VIEW) {
+            mCategoryUUID = UUID.fromString(getActivity()
+                    .getIntent().getStringExtra(CATEGORY_UUID));
+            DataInterface dataInterface = DataInterface
+                    .getDataInterface(getContext());
+            Category category = dataInterface.getCategory(mCategoryUUID);
+            getActivity().setTitle(category.getCategory());
+        }
+        else if (mViewMode == RENCENT_VIEW) {
+            getActivity().setTitle(R.string.recent);
+        }
+        else if (mViewMode == FAVORITE_VIEW) {
+            getActivity().setTitle(R.string.favorite);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_category, container, false);
+        View view = inflater.inflate(R.layout.fragment_template_recycler, container, false);
         mTemplateRecyclerView = (RecyclerView) view
-                .findViewById(R.id.fragment_category_recycler_view);
+                .findViewById(R.id.fragment_template_recycler_view);
         mTemplateRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
         return view;
@@ -87,7 +102,16 @@ public class TemplateRecyclerFragment extends Fragment {
 
     private void updateUI() {
         DataInterface dataInterface = DataInterface.getDataInterface(getActivity());
-        List<Template> templates = dataInterface.getTemplates(mCategoryUUID);
+        List<Template> templates = new ArrayList<>();
+        if (mViewMode == NORMAL_VIEW) {
+            templates = dataInterface.getTemplates(mCategoryUUID);
+        }
+        else if (mViewMode== RENCENT_VIEW) {
+            templates = dataInterface.getRecentTemplates();
+        }
+        else if (mViewMode == FAVORITE_VIEW) {
+            templates = dataInterface.getFavoriteTemplates();
+        }
         mTemplateAdapter = new TemplateAdapter(templates);
         mTemplateRecyclerView.setAdapter(mTemplateAdapter);
     }
@@ -143,9 +167,13 @@ public class TemplateRecyclerFragment extends Fragment {
         }
     }
 
-    public static Intent newIntent(Context packageContext, UUID categoryUUID) {
+    public static Intent newIntent(Context packageContext,
+                                   UUID categoryUUID, int typeOfView) {
         Intent i = new Intent(packageContext, TemplatesActivity.class);
-        i.putExtra(CATEGORY_UUID, categoryUUID.toString());
+        if (categoryUUID != null) {
+            i.putExtra(CATEGORY_UUID, categoryUUID.toString());
+        }
+        i.putExtra(TYPE_OF_VIEW, typeOfView);
         return i;
     }
 

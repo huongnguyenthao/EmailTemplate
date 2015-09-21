@@ -23,7 +23,10 @@ import java.util.List;
 public class CategoryFragment extends Fragment {
     private RecyclerView mPlayerRecyclerView;
     private CategoriesAdapter mRosterAdapter;
+    private TextView mRecentTextView, mFavoriteTextView;
     private static final String DIALOG_NEW_CATEGORY = "DialogNewCategory";
+    private static final String DIALOG_EDIT_SIGNATURE = "DialogEditSignature";
+    
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,26 @@ public class CategoryFragment extends Fragment {
         mPlayerRecyclerView = (RecyclerView) view
                 .findViewById(R.id.fragment_category_recycler_view);
         mPlayerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecentTextView = (TextView) view.findViewById(R.id.recent_text_view);
+        mRecentTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = TemplateRecyclerFragment
+                        .newIntent(getContext(), null,
+                                TemplateRecyclerFragment.RENCENT_VIEW);
+                startActivity(intent);
+            }
+        });
+        mFavoriteTextView = (TextView) view.findViewById(R.id.favorite_text_view);
+        mFavoriteTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = TemplateRecyclerFragment
+                        .newIntent(getContext(), null,
+                                TemplateRecyclerFragment.FAVORITE_VIEW);
+                startActivity(intent);
+            }
+        });
         updateUI();
         return view;
     }
@@ -45,12 +68,16 @@ public class CategoryFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        FragmentManager manager = getFragmentManager();
         switch (item.getItemId()) {
             case R.id.menu_item_new_player:
-                FragmentManager manager = getFragmentManager();
                 NewCategoryDialog dialog = new NewCategoryDialog();
                 dialog.setTargetFragment(CategoryFragment.this, REQUEST_NAME);
                 dialog.show(manager, DIALOG_NEW_CATEGORY);
+                return true;
+            case R.id.menu_item_edit_signature:
+                SignatureFragment signatureDialog = SignatureFragment.newInstance();
+                signatureDialog.show(manager, DIALOG_EDIT_SIGNATURE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -91,9 +118,9 @@ public class CategoryFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Intent intent = TemplateRecyclerFragment
-                    .newIntent(getContext(), mCategory.getUUID());
+                    .newIntent(getContext(), mCategory.getUUID(),
+                            TemplateRecyclerFragment.NORMAL_VIEW);
             startActivity(intent);
-            //setNameChosen(mDatabasePlayer.getName());
         }
     }
 
