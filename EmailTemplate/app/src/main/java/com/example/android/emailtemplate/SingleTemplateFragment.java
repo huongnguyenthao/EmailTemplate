@@ -35,7 +35,7 @@ public class SingleTemplateFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+
         setRetainInstance(true);
         mDataInterface = DataInterface.getDataInterface(getContext());
         String uuid = getActivity().getIntent()

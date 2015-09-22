@@ -97,7 +97,12 @@ public class TemplateRecyclerFragment extends Fragment {
         inflater.inflate(R.menu.menu_category_fragment, menu);
         MenuItem menuItem = (MenuItem) menu.findItem(R.id.menu_item_new_player);
         menuItem.setTitle(R.string.add_new_template);
-
+        if (mViewMode != NORMAL_VIEW){
+            menuItem.setVisible(false);
+        }
+        MenuItem signatureItem = (MenuItem)
+                menu.findItem(R.id.menu_item_edit_signature);
+        signatureItem.setVisible(false);
     }
 
     private void updateUI() {

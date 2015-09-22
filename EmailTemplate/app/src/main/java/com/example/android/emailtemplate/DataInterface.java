@@ -167,7 +167,7 @@ public class DataInterface {
             = new Comparator<Template>() {
         @Override
         public int compare(Template lhs, Template rhs) {
-            return lhs.getLastAccessed().compareTo(rhs.getLastAccessed());
+            return rhs.getLastAccessed().compareTo(lhs.getLastAccessed());
         }
     };
 
