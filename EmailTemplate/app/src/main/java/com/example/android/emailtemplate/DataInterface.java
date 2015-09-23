@@ -146,6 +146,22 @@ public class DataInterface {
      * Uses a custom comparator to return a list of
      * templates sorted by their last accessed time
      * stamps.
+     * * <pre>
+     *     <code>
+     *         public List&#60Template&#62 getRecentTemplates() {
+     *              List&#60Template&#62 templates = getTemplates();
+     *              Collections.sort(templates, getTemplateTimeComparator);
+     *              return templates;
+     *          }
+     *         public static Comparator&#60Template&#62 getTemplateTimeComparator
+     *              = new Comparator&#60Template&#62() {
+     *              &#64Override
+     *              public int compare(Template lhs, Template rhs) {
+     *              return rhs.getLastAccessed().compareTo(lhs.getLastAccessed());
+     *              }
+     *          };
+     *     </code>
+     * </pre>
      * @return
      */
     public List<Template> getRecentTemplates() {
