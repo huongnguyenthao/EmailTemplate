@@ -21,6 +21,7 @@ import java.util.UUID;
 
 /**
  * Created by Huong on 9/19/2015.
+ * <p>This is the database layer.</p>
  */
 public class DataInterface {
     private SQLiteDatabase mDatabase;
@@ -113,6 +114,12 @@ public class DataInterface {
         return templates;
     }
 
+    /**
+     *
+     * @param categoryUUID
+     * @return list of templates tied to the category with
+     * that categoryUUID.
+     */
     public List<Template> getTemplates(UUID categoryUUID) {
         List<Template> templates = new ArrayList<>();
         TemplateCursorWrapper cursor = queryTemplate(
@@ -135,6 +142,12 @@ public class DataInterface {
         return templates;
     }
 
+    /**
+     * Uses a custom comparator to return a list of
+     * templates sorted by their last accessed time
+     * stamps.
+     * @return
+     */
     public List<Template> getRecentTemplates() {
         List<Template> templates = getTemplates();
         Collections.sort(templates, getTemplateTimeComparator);
@@ -163,6 +176,9 @@ public class DataInterface {
         return templates;
     }
 
+    /**
+     * Custom comparator for Templates.
+     */
     public static Comparator<Template> getTemplateTimeComparator
             = new Comparator<Template>() {
         @Override

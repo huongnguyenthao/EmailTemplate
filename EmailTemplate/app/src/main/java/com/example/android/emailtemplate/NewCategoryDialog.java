@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 /**
  * Created by Huong on 9/15/2015.
+ * <img src="../../../../screenshots/newcategory.png" alt="New Category" style="width:502px;height:795px;">
  */
 public class NewCategoryDialog extends AppCompatDialogFragment {
 

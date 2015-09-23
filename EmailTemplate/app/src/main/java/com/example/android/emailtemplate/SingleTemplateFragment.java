@@ -18,6 +18,9 @@ import java.util.UUID;
 
 /**
  * Created by Huong on 9/19/2015.
+ * <p>Fragment that handles editing and sending templates. It only
+ * saves the template when the Save button is pressed.</p>
+ * <img src="../../../../screenshots/edittemplate.png" alt="Template Screen" style="width:502px;height:795px;">
  */
 public class SingleTemplateFragment extends Fragment {
     private EditText mTitleEditText;

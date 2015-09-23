@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,10 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.File;
+import java.net.URL;
 import java.util.List;
 
 /**
  * Created by Huong on 9/18/2015.
+ * <p>The Categories Fragment, with access to individual categories,
+ * to recent and favorited templates, and to adding category and editting
+ * signature options in the menu bar. </p>
+ * <img src="../../../../screenshots/mainscreen.png" alt="Main Screen" style="width:502px;height:795px;">
  */
 public class CategoryFragment extends Fragment {
     private RecyclerView mPlayerRecyclerView;
@@ -66,6 +73,13 @@ public class CategoryFragment extends Fragment {
     }
     private static final int REQUEST_NAME = 0;
 
+    /**
+     * Wires up two menu items, one for adding
+     * a new category, and one for editing the
+     * signature.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         FragmentManager manager = getFragmentManager();
@@ -84,6 +98,11 @@ public class CategoryFragment extends Fragment {
         }
     }
 
+    /**
+     * Creates and sets titles for menu items.
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -124,6 +143,12 @@ public class CategoryFragment extends Fragment {
         }
     }
 
+    /**
+     * Handles activity result, adds new category.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {

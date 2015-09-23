@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 /**
  * Created by Eric Andow on 9/21/2015.
+ * <img src="../../../../screenshots/editsignature.png" alt="Edit Signature" style="width:502px;height:795px;">
  */
 public class SignatureFragment extends AppCompatDialogFragment {
     private EditText mEditText;
@@ -29,6 +30,7 @@ public class SignatureFragment extends AppCompatDialogFragment {
                 .inflate(R.layout.signature_fragment, null);
 
         mEditText = (EditText) v.findViewById(R.id.signature_edit_text);
+        mEditText.setText(mSignature.getSignature());
         return new android.support.v7.app.AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(R.string.edit_signature_dialog_title)

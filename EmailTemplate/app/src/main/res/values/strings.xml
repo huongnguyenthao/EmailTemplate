@@ -9,7 +9,7 @@
     <string name="favorite">Favorite</string>
     <string name="categories">Categories</string>
     <string name="edit_signature">Change Signature</string>
-    <string name="edit_signature_dialog_title">Enter your Signature:</string>
+    <string name="edit_signature_dialog_title">Enter your signature:</string>
     <string name="save_signature">Save</string>
     <string name="send_email_button_text">Send</string>
     <string name="include_signature_text">Use Signature</string>

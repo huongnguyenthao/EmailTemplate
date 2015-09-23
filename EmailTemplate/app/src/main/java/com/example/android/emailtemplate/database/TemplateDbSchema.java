@@ -2,8 +2,12 @@ package com.example.android.emailtemplate.database;
 
 /**
  * Created by Huong on 9/18/2015.
+ * * <img src="../../../../../screenshots/databaseschema.JPG" alt="Database Schema" style="width:479px;height:274px;">
  */
 public class TemplateDbSchema {
+    /**
+     * The schema for the categories table.
+     */
     public static final class CategoryTable{
         public final static String NAME = "categories";
         public static final class Cols {

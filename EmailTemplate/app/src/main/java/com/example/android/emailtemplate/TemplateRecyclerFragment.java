@@ -26,7 +26,6 @@ import java.util.UUID;
 public class TemplateRecyclerFragment extends Fragment {
     private RecyclerView mTemplateRecyclerView;
     private TemplateAdapter mTemplateAdapter;
-    private static final String NEW_TEMPLATE = "NewTemplate";
     private static final String TYPE_OF_VIEW = "TypeOfView";
     public static final int NORMAL_VIEW = 0;
     public static final int RENCENT_VIEW = 1;
